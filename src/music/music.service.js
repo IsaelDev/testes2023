@@ -1,7 +1,7 @@
 import musicRepository from "./music.repository"
 
 class MusicService {
-    constructor ()
+    constructor () {}
 
     add(music) {
         return musicRepository.addMusic(music) 

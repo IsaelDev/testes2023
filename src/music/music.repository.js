@@ -3,6 +3,7 @@ const musics = []
 
 function addMusic (music) {
     musics.push(music)
+    return music
 }
 
 
@@ -17,10 +18,12 @@ function getQtMusics () {
     return musics.length
 }
 
-function searchMusic (music) {
+function searchMusic (title) {
+    console.log("title:"+title)
     const indexMusic = musics.findIndex(
-        (currentMusic) => currentMusic.title === music.title
+        (currentMusic) => currentMusic.title === title
     )
+    //console.log(musics[indexMusic])
     return musics[indexMusic]
 }
 
