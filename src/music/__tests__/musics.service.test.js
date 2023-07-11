@@ -106,4 +106,49 @@ describe('music servic', ()=>{
             musicsService.add(music)
         }).toThrowError()
     })
+
+    test("dont should be add music without title", () =>{
+        const music = {
+            artist: "Sabotage",
+            genre: "rap"
+        }
+
+        expect(()=>{
+            musicsService.add(music)
+        }).toThrowError()
+    })
+
+    test("dont should be add music without artist", () =>{
+        const music = {
+            title: "Mun-rá",
+            genre: "rap"
+        }
+
+        expect(()=>{
+            musicsService.add(music)
+        }).toThrowError()
+    })
+
+    test("should be add music have a much genres", () =>{
+        const music = {
+            title: "Last nite",
+            artist: "The Strokes",
+            genre: ["indie", "rock"]
+        }
+
+        expect(()=>{
+            musicsService.add(music)
+        }).toThrowError()
+    })
+
+    test("dont should be add music without genres", () =>{
+        const music = {
+            title: "Last nite",
+            artist: "The Strokes"
+        }
+
+        expect(()=>{
+            musicsService.add(music)
+        }).toThrowError()
+    })
 })
