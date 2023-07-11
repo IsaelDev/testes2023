@@ -2,8 +2,7 @@ const musics = []
 
 
 function addMusic (music) {
-    musics.push(music)
-    return music
+    return musics.push(music)
 }
 
 
@@ -39,3 +38,5 @@ export default {
     getQtMusics,
     listAllMusics
 }
+
+export { musics }
