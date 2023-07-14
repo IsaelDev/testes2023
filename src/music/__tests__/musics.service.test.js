@@ -1,6 +1,11 @@
 import musicRepository from "../music.repository";
-import { MusicService } from "../music.service";
+import { MusicService, addMusic, removeMusic, searchMusic } from "../music.service";
 import {musics} from "../music.repository"
+
+
+
+
+
 
 jest.mock('../music.repository')
 
@@ -235,6 +240,7 @@ describe('music servic', ()=>{
       { title: 'Dengo', artist: 'João Gomes' },
     ]);
   });
+
   //teste17
   test('Testa se removerá corretamente quando há apenas uma música no array', () => {
     const musics = [{ title: 'One Dance', artist: 'Drake' }];
@@ -243,8 +249,176 @@ describe('music servic', ()=>{
   
     expect(musics).toEqual([]);
   });
+
   //teste18
+    test('Testa se retorna o número correto de músicas quando a lista contém várias músicas', () => {
+
+  const musics = ['Dengo', 'Amor e fé', 'One Dance'];
+
+ 
+  const result = getQtMusics(musics);
+
+  // Verifica se o resultado é igual ao comprimento da lista de músicas (3 musicas neste caso)
+  expect(result).toBe(musics.length);
+});
+
+//teste19
+
+test('Retorna 0 se a lista de músicas estáiver vazia, contendo apenas espaços em branco', () => {
   
+  const musics = ['   ', '    ', '   '];
+
+  
+  const result = getQtMusics(musics);
+
+  // Verifica se o resultado é 0
+  expect(result).toBe(0);
+});
+//teste20
+
+    test('Retorna o número total de músicas na lista após adicionar uma nova música', () => {
+
+    const musics = ['One Dance', 'Amor e fé'];
+    const result = addMusic('Meu pedaço de pecado');
+
+    // Verificando se o resultado retornado pela função é igual ao tamanho total da lista de músicas
+    expect(result).toBe(musics.length);
+});
+
+//teste21
+    test('Irá testar se retorna o número correto de músicas após adicionar duas músicas', () => {
+    const musics = ['One Dance'];
+    const result1 = addMusic('Amor e fé');
+    const result2 = addMusic('Meu pedaço de pecado');
+
+    // Verificando se o resultado retornado pela função é igual ao tamanho total da lista de músicas
+    expect(result1).toBe(2);
+    expect(result2).toBe(3);
+});
+
+//teste22
+    test('Não é permitido adicionar músicas vazias', () => {
+    const musics = ['One Dance', 'Amor e fé'];
+
+    addMusic('');
+
+    // Verificando se a lista de músicas não foi modificada
+    expect(musics).toEqual(['One Dance', 'Amor e fé']);
+});
+
+//teste23
+    test('Permite adicionar músicas com números, já que muitas músicas tem seu nome como caracteres', () => {
+    const musics = ['One Dance', 'Amor e fé'];
+
+
+    addMusic('212');
+
+    // Verificando se a lista de músicas contém a música com nome de número
+    expect(musics).toContain('212');
+});
+
+//teste24
+    test('Permite adicionar músicas com hífen no nome', () => {
+    const musics = ['One Dance', 'Amor e fé'];
+
+
+    addMusic('Summer-Love');
+
+    // Verificando se a lista de músicas contém a música com hífen no nome
+    expect(musics).toContain('Summer-Love');
+});
+
+//teste25
+    test('Permite adicionar músicas com caracteres especiais no nome, como "$", "&" e "*"', () => {
+    const musics = ['One Dance', 'Amor e fé'];
+
+    addMusic('Love $amp');
+
+    // Verificando se a lista de músicas contém a música com caracteres especiais no nome
+    expect(musics).toContain('Love $amp');
+});
+
+//teste26
+    test('Não permite buscar valores vazios', () => {
+    const musics = [
+        { title: "One Dance", artist: "Drake" },
+        { title: "Amor e fé", artist: "Hungria" },
+        { title: "Temporal", artist: "Hungria" }
+    ];
+
+    const result = searchMusic('');
+
+    // Verificando se o resultado retornado pela função é undefined
+    expect(result).toBeUndefined();
+});
+
+//teste27
+    test('Permite fazer busca por caracteres', () => {
+    const musics = [
+        { title: "One Dance", artist: "Drake" },
+        { title: "212", artist: "artista desconhecido" },
+        { title: "Amor e fé", artist: "Hungria" }
+    ];
+
+    const result = searchMusic('212');
+
+    // Verificando se o resultado retornado pela função é a música com o título correspondente
+    expect(result).toEqual({ title: "212", artist: "artista desconhecido" });
+});
+
+//teste28
+test('Permite fazer busca por caractere especial', () => {
+    const musics = [
+        { title: "Cama de casal", artist: "Hungria" },
+        { title: "One Dance", artist: "Drake" },
+        { title: "Lind@", artist: "Rita de Cassia" }
+    ];
+
+    const result = searchMusic('@');
+
+    // Verificando se o resultado retornado pela função é a música com o título correspondente
+    expect(result).toEqual({ title: "Lind@", artist: "Rita de Cassia" });
+});
+
+//teste29
+test('Retorna a música correta ao buscar por um título válido', () => {
+    const musics = [
+        { title: "Amor e fé", artist: "Hungria" },
+        { title: "One Dance", artist: "Drake" },
+    
+    ];
+
+    const result = searchMusic("Amor e fé");
+
+    // Verificando se o resultado retornado pela função é a música com o título correspondente
+    expect(result).toEqual({ title: "Amor e fé", artist: "Hungria" });
+});
+
+//teste30
+
+
+test('Permite realizar a busca mesmo que o usuário esqueça algum assento no título', () => {
+    const musics = [
+        { title: "Amor e fé", artist: "Hungria" },
+        { title: "One dance", artist: "Drake" },
+    ];
+
+    const result = searchMusic("Amor e fe");
+
+    // Verificando se o resultado retornado pela função é a música com o título correspondente
+    expect(result).toEqual({ title: "Amor e fé", artist: "Hungria" });
+});
+
+
+
+
+
+
+
+
+
+
+
 
 })
 
